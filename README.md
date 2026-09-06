@@ -97,5 +97,5 @@ The Complaint Assistant makes decisions regarding complaint category, follow-up 
                                                ▼
                                    ┌────────────────────┐
                                    │ SQLite Database    │
-                                   │ Complaint Storage   │
+                                   │ Complaint Storage  │
                                    └────────────────────┘
