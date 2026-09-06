@@ -94,7 +94,7 @@ The Complaint Assistant makes decisions regarding complaint category, follow-up 
         ┌─────────────────┐         │ Priority Detection │
         │  AI Response    │         └──────────┬─────────┘
         └─────────────────┘                    │
-                                              ▼
+                                               ▼
                                    ┌────────────────────┐
                                    │ SQLite Database    │
                                    │ Complaint Storage   │
