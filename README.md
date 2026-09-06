@@ -1,6 +1,6 @@
 # PRPCEM STUDENT ASSISTANT
 
-### AI-Powered Student Assistance & Complaint Resolution System
+### AI-Powered Student Support Assistance & Complaint Resolution System
 
 PRPCEM Student Assistant is a domain-specific AI-based web application designed to provide students with quick college-related information and simplify the complaint registration process.
 
@@ -75,7 +75,7 @@ The Complaint Assistant makes decisions regarding complaint category, follow-up 
                  │                         │
                  ▼                         ▼
         ┌─────────────────┐       ┌────────────────────┐
-        │   AI CHATBOT    │       │ COMPLAINT ASSISTANT│
+        │   AI CHATBOT    │       │ RAISE A COMPLAINT │
         └────────┬────────┘       └──────────┬─────────┘
                  │                           │
                  ▼                           ▼
