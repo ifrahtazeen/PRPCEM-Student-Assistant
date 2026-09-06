@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask Chatbot | PRPCEM</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+<header class="topbar"><a href="/" class="back">← Home</a><div><strong>PRPCEM STUDENT ASSISTANT</strong><small>College Information Chatbot</small></div></header>
+<main class="chat-wrap">
+  <div class="chat-title"><div class="bot-avatar">🤖</div><div><h1>Ask Chatbot</h1><p>Ask me anything related to PRPCEM.</p></div></div>
+  <div id="messages" class="messages">
+    <div class="message bot">Hello! 👋 I’m the PRPCEM Student Assistant. Ask me about departments, programs, facilities, examinations or other college-related information.</div>
+  </div>
+  <div class="suggestions">
+    <button onclick="ask('What departments are available in PRPCEM?')">Departments</button>
+    <button onclick="ask('What facilities does the college have?')">Facilities</button>
+    <button onclick="ask('Tell me about AIML.')">AIML</button>
+  </div>
+  <form id="chatForm" class="chat-form">
+    <input id="input" placeholder="Type your PRPCEM-related question..." autocomplete="off">
+    <button>Send</button>
+  </form>
+</main>
+</div>
+<script>
+const messages=document.getElementById('messages');
+function add(text, cls){const d=document.createElement('div');d.className='message '+cls;d.textContent=text;messages.appendChild(d);messages.scrollTop=messages.scrollHeight;}
+async function ask(text){document.getElementById('input').value=text; await send();}
+async function send(){const input=document.getElementById('input');const text=input.value.trim();if(!text)return;add(text,'user');input.value='';const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});const d=await r.json();setTimeout(()=>add(d.reply,'bot'),250);}
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();send();});
+</script>
+</body>
+</html>

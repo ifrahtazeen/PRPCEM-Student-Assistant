@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Assistant | PRPCEM</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+  <a href="/" class="back">← Home</a>
+
+  <div>
+    <strong>PRPCEM STUDENT ASSISTANT</strong>
+    <small>AI Complaint Assistant</small>
+  </div>
+</header>
+
+
+<main class="complaint-wrap">
+
+  <!-- STEP 1 : DESCRIBE COMPLAINT -->
+
+  <div id="step1">
+
+    <div class="section-head">
+
+      <div class="bot-avatar">📝</div>
+
+      <div>
+        <h1>Complaint Assistant</h1>
+
+        <p>
+          Describe your problem naturally. AI will identify the category
+          and ask relevant questions.
+        </p>
+      </div>
+
+    </div>
+
+
+    <textarea
+      id="description"
+      placeholder="Example: ML lab ka projector kaam nahi kar raha..."
+    ></textarea>
+
+
+    <button class="primary" onclick="analyze()">
+      Analyze Complaint →
+    </button>
+
+  </div>
+
+
+
+  <!-- STEP 2 : AI QUESTIONS -->
+
+  <div id="step2" style="display:none">
+
+    <div class="category-box">
+
+      <span>AI detected category</span>
+
+      <strong id="category"></strong>
+
+    </div>
+
+
+    <div id="questions"></div>
+
+
+    <button class="primary" onclick="submitComplaint()">
+      Create Complaint →
+    </button>
+
+  </div>
+
+
+
+  <!-- STEP 3 : RESULT -->
+
+  <div id="result" style="display:none" class="result-box">
+
+    <div class="success">✓</div>
+
+    <h1>Complaint Prepared</h1>
+
+    <p>
+      Your complaint has been structured successfully.
+    </p>
+
+
+    <div class="result">
+      <span>Complaint ID</span>
+      <strong id="cid"></strong>
+    </div>
+
+
+    <div class="result">
+      <span>Category</span>
+      <strong id="cat2"></strong>
+    </div>
+
+
+    <div class="result">
+      <span>Priority</span>
+      <strong id="priority"></strong>
+    </div>
+
+
+    <a href="/" class="home-btn">
+      Back to Home
+    </a>
+
+  </div>
+
+</main>
+
+</div>
+
+
+
+<script>
+
+let category = '';
+let questions = [];
+
+
+// ======================================================
+// ANALYZE COMPLAINT
+// ======================================================
+
+async function analyze() {
+
+  const description =
+    document.getElementById('description').value.trim();
+
+
+  // Empty complaint check
+  if (!description) {
+
+    alert('Please describe your complaint first.');
+
+    return;
+  }
+
+
+  try {
+
+    const r = await fetch(
+      '/api/analyze-complaint',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+          description: description
+        })
+      }
+    );
+
+
+    const d = await r.json();
+
+
+    // ==================================================
+    // IMPORTANT:
+    // Handle backend validation errors
+    // ==================================================
+
+    if (!r.ok || d.error) {
+
+      alert(
+        d.error ||
+        'Unable to analyze complaint. Please try again.'
+      );
+
+      return;
+    }
+
+
+    // Store category and questions
+
+    category = d.category || 'Other';
+
+    questions = d.questions || [];
+
+
+    // Display detected category
+
+    document.getElementById('category').textContent =
+      category;
+
+
+    // Clear old questions
+
+    const qbox =
+      document.getElementById('questions');
+
+    qbox.innerHTML = '';
+
+
+    // Generate relevant questions
+
+    questions.forEach((q, i) => {
+
+      qbox.innerHTML += `
+        <label>
+          ${i + 1}. ${q}
+          <input
+            class="answer"
+            placeholder="Enter your answer..."
+          >
+        </label>
+      `;
+
+    });
+
+
+    // Move to Step 2
+
+    document.getElementById('step1').style.display =
+      'none';
+
+    document.getElementById('step2').style.display =
+      'block';
+
+  }
+
+
+  catch (error) {
+
+    console.error('Analyze error:', error);
+
+    alert(
+      'Something went wrong while analyzing your complaint. Please try again.'
+    );
+
+  }
+
+}
+
+
+
+// ======================================================
+// SUBMIT COMPLAINT
+// ======================================================
+
+async function submitComplaint() {
+
+  const description =
+    document.getElementById('description').value.trim();
+
+
+  const answers =
+    [...document.querySelectorAll('.answer')]
+      .map(x => x.value.trim());
+
+
+  try {
+
+    const r = await fetch(
+      '/api/submit-complaint',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+
+          description: description,
+
+          category: category,
+
+          answers: answers
+
+        })
+      }
+    );
+
+
+    const d = await r.json();
+
+
+    // ==================================================
+    // Handle submission errors
+    // ==================================================
+
+    if (!r.ok || d.error) {
+
+      alert(
+        d.error ||
+        'Unable to create complaint. Please try again.'
+      );
+
+      return;
+    }
+
+
+    // ==================================================
+    // Show successful result
+    // ==================================================
+
+    document.getElementById('step2').style.display =
+      'none';
+
+    document.getElementById('result').style.display =
+      'block';
+
+
+    // Complaint ID
+
+    document.getElementById('cid').textContent =
+      d.complaint_id || 'N/A';
+
+
+    // Category
+
+    document.getElementById('cat2').textContent =
+      d.category || category || 'Other';
+
+
+    // Priority
+
+    document.getElementById('priority').textContent =
+      d.priority || 'LOW';
+
+  }
+
+
+  catch (error) {
+
+    console.error('Submit error:', error);
+
+    alert(
+      'Something went wrong while creating the complaint. Please try again.'
+    );
+
+  }
+
+}
+
+</script>
+
+</body>
+
+</html>

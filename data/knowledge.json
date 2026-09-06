@@ -1,0 +1,23 @@
+{
+  "college": {
+    "name": "P. R. Pote Patil College of Engineering & Management, Amravati"
+  },
+  "departments": [
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (AIML)",
+    "Artificial Intelligence & Data Science",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "Electronics & Telecommunication Engineering",
+    "Mechanical Engineering"
+  ],
+  "facilities": [
+    "Laboratories",
+    "Library",
+    "Classrooms",
+    "Canteen",
+    "Transportation",
+    "Sports & Medical",
+    "Auditorium"
+  ]
+}
