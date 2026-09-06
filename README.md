@@ -1,50 +1,101 @@
 # PRPCEM STUDENT ASSISTANT
 
-AI-powered student assistance and complaint-support web application for **P. R. Pote Patil College of Engineering & Management, Amravati**.
+### AI-Powered Student Assistance & Complaint Resolution System
 
-## Features
+PRPCEM Student Assistant is a domain-specific AI-based web application designed to provide students with quick college-related information and simplify the complaint registration process.
 
-- College-specific student chatbot
-- Domain restriction for unrelated questions
-- AI-style complaint category detection
-- Category-specific dynamic questions
-- Complaint priority scoring
-- Complaint ID generation
-- Responsive college-themed interface
+The system provides two main services:
 
-## AI Concepts
+- 🤖 **AI Chatbot** – Answers PRPCEM-related queries.
+- 📝 **AI Complaint Assistant** – Understands a student's complaint, identifies its category, asks relevant questions, determines priority, and stores the complaint.
 
-- Natural Language Processing (NLP)
-- Intent/category detection
-- Rule-based reasoning
-- Knowledge representation
-- State-based complaint conversation
-- Heuristic priority scoring
+---
 
-## Technology
+## 🎯 Problem Statement
 
-- Python
-- Flask
-- HTML/CSS/JavaScript
-- JSON knowledge base
+Students frequently need information about college departments, facilities, examinations and other campus-related services. They may also face problems related to laboratories, faculty, infrastructure, library, transportation and other areas.
 
-## Run Locally
+Traditional complaint systems may require students to manually select categories and provide information in a fixed format.
 
-```bash
-pip install -r requirements.txt
-python app.py
-```
+PRPCEM Student Assistant provides a conversational interface where students can describe their queries and complaints naturally.
 
-Open `http://127.0.0.1:5000`
+---
 
-## Project Flow
+## 💡 Objectives
 
-Student → Chatbot OR Complaint Assistant → NLP/category detection → relevant questions → structured complaint.
+- Develop an AI-based student assistance system.
+- Provide quick answers to PRPCEM-related queries.
+- Process student input written in natural language.
+- Automatically identify complaint categories.
+- Ask category-specific follow-up questions.
+- Determine complaint priority.
+- Store structured complaint information.
+- Provide a simple and user-friendly interface.
 
-## Future Scope
+---
 
-- Connect to a production LLM API
-- Add database storage and complaint tracking
-- Add authenticated student/admin accounts
-- Add email/notification routing
-- Expand the verified PRPCEM knowledge base
+## 🤖 AI Concepts Used
+
+### 1. Natural Language Processing (NLP)
+
+The system processes natural-language text entered by students and identifies relevant words and phrases.
+
+### 2. Intent Detection
+
+The chatbot identifies the intent behind a student's query and provides an appropriate response.
+
+### 3. Rule-Based Reasoning
+
+Predefined rules are used to classify complaints and determine their priority.
+
+### 4. Knowledge Representation
+
+College-related information is represented in a structured JSON knowledge base.
+
+### 5. Decision Making
+
+The Complaint Assistant makes decisions regarding complaint category, follow-up questions and priority.
+
+---
+
+## 🏗️ System Architecture
+
+```text
+                    ┌─────────────────────────┐
+                    │        STUDENT          │
+                    └────────────┬────────────┘
+                                 │
+                                 ▼
+              ┌──────────────────────────────────┐
+              │      PRPCEM STUDENT ASSISTANT    │
+              │          Web Interface           │
+              └───────────────┬──────────────────┘
+                              │
+                 ┌────────────┴────────────┐
+                 │                         │
+                 ▼                         ▼
+        ┌─────────────────┐       ┌────────────────────┐
+        │   AI CHATBOT    │       │ COMPLAINT ASSISTANT│
+        └────────┬────────┘       └──────────┬─────────┘
+                 │                           │
+                 ▼                           ▼
+        ┌─────────────────┐       ┌────────────────────┐
+        │ Intent Detection│       │ Complaint Category │
+        │ & NLP Processing│       │    Detection       │
+        └────────┬────────┘       └──────────┬─────────┘
+                 │                           │
+                 ▼                           ▼
+        ┌─────────────────┐       ┌────────────────────┐
+        │ Knowledge Base  │       │ Relevant Questions │
+        │     (JSON)      │       └──────────┬─────────┘
+        └────────┬────────┘                  │
+                 │                           ▼
+                 ▼                  ┌────────────────────┐
+        ┌─────────────────┐         │ Priority Detection │
+        │  AI Response    │         └──────────┬─────────┘
+        └─────────────────┘                    │
+                                              ▼
+                                   ┌────────────────────┐
+                                   │ SQLite Database    │
+                                   │ Complaint Storage   │
+                                   └────────────────────┘
