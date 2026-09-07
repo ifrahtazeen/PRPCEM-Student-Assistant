@@ -1,355 +1,896 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Complaint Assistant | PRPCEM</title>
-<link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title> Raise a Complaint </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
 </head>
 
-<body>
+
+<body class="inner-page">
 
 <div class="app">
 
-<header class="topbar">
-  <a href="/" class="back">← Home</a>
+    <!-- ================= TOPBAR ================= -->
 
-  <div>
-    <strong>PRPCEM STUDENT ASSISTANT</strong>
-    <small>AI Complaint Assistant</small>
-  </div>
-</header>
+    <header class="topbar">
 
+        <a href="/" class="back-button">
 
-<main class="complaint-wrap">
+            <span class="back-icon">
+                ←
+            </span>
 
-  <!-- STEP 1 : DESCRIBE COMPLAINT -->
+            <span>
+                Assistant Home
+            </span>
 
-  <div id="step1">
-
-    <div class="section-head">
-
-      <div class="bot-avatar">📝</div>
-
-      <div>
-        <h1>Complaint Assistant</h1>
-
-        <p>
-          Describe your problem naturally. AI will identify the category
-          and ask relevant questions.
-        </p>
-      </div>
-
-    </div>
+        </a>
 
 
-    <textarea
-      id="description"
-      placeholder="Example: ML lab ka projector kaam nahi kar raha..."
-    ></textarea>
+        <div class="topbar-brand">
+
+            <div class="mini-logo">
+                📝
+            </div>
+
+            <div>
+
+                <strong>
+                    PRPCEM STUDENT ASSISTANT
+                </strong>
+
+                <small>
+                    AI Complaint Assistant
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
 
 
-    <button class="primary" onclick="analyze()">
-      Analyze Complaint →
-    </button>
+    <!-- ================= MAIN ================= -->
 
-  </div>
+    <main class="complaint-page">
 
-
-
-  <!-- STEP 2 : AI QUESTIONS -->
-
-  <div id="step2" style="display:none">
-
-    <div class="category-box">
-
-      <span>AI detected category</span>
-
-      <strong id="category"></strong>
-
-    </div>
+        <div class="complaint-container">
 
 
-    <div id="questions"></div>
+            <!-- ================= STEP INDICATOR ================= -->
+
+            <div class="steps">
+
+                <div class="step active">
+
+                    <span>1</span>
+
+                    <small>
+                        Describe
+                    </small>
+
+                </div>
 
 
-    <button class="primary" onclick="submitComplaint()">
-      Create Complaint →
-    </button>
-
-  </div>
+                <div class="step-line"></div>
 
 
+                <div class="step">
 
-  <!-- STEP 3 : RESULT -->
+                    <span>2</span>
 
-  <div id="result" style="display:none" class="result-box">
+                    <small>
+                        Details
+                    </small>
 
-    <div class="success">✓</div>
-
-    <h1>Complaint Prepared</h1>
-
-    <p>
-      Your complaint has been structured successfully.
-    </p>
+                </div>
 
 
-    <div class="result">
-      <span>Complaint ID</span>
-      <strong id="cid"></strong>
-    </div>
+                <div class="step-line"></div>
 
 
-    <div class="result">
-      <span>Category</span>
-      <strong id="cat2"></strong>
-    </div>
+                <div class="step">
+
+                    <span>3</span>
+
+                    <small>
+                        Complete
+                    </small>
+
+                </div>
+
+            </div>
 
 
-    <div class="result">
-      <span>Priority</span>
-      <strong id="priority"></strong>
-    </div>
+            <!-- ================= STEP 1 ================= -->
+
+            <section
+                id="step1"
+                class="complaint-step"
+            >
+
+                <div class="section-head">
+
+                    <div class="bot-avatar complaint-avatar">
+                        📝
+                    </div>
+
+                    <div>
+
+                        <span class="section-tag">
+                            AI COMPLAINT ASSISTANT
+                        </span>
+
+                        <h1>
+                            Describe your problem
+                        </h1>
+
+                        <p>
+                            Tell us what happened in your own words.
+                            AI will identify the appropriate category
+                            and ask relevant questions.
+                        </p>
+
+                    </div>
+
+                </div>
 
 
-    <a href="/" class="home-btn">
-      Back to Home
-    </a>
+                <div class="textarea-wrapper">
 
-  </div>
+                    <textarea
+                        id="description"
+                        placeholder="Example: ML lab ka projector kaam nahi kar raha..."
+                    ></textarea>
 
-</main>
+                    <div class="textarea-footer">
+
+                        <span>
+                            Describe the issue clearly
+                        </span>
+
+                        <span id="charCount">
+                            0
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary"
+                    onclick="analyze()"
+                >
+
+                    <span>
+                        Analyze Complaint
+                    </span>
+
+                    <b>
+                        →
+                    </b>
+
+                </button>
+
+            </section>
+
+
+            <!-- ================= STEP 2 ================= -->
+
+            <section
+                id="step2"
+                class="complaint-step"
+                style="display: none;"
+            >
+
+                <div class="analysis-animation">
+
+                    <div class="ai-pulse">
+                        🤖
+                    </div>
+
+                    <span>
+                        AI analysis complete
+                    </span>
+
+                </div>
+
+
+                <div class="category-box">
+
+                    <span>
+                        AI DETECTED CATEGORY
+                    </span>
+
+                    <strong id="category"></strong>
+
+                </div>
+
+
+                <div
+                    id="questions"
+                    class="questions-box"
+                ></div>
+
+
+                <!-- Validation message -->
+
+                <div
+                    id="validationMessage"
+                    style="
+                        display: none;
+                        margin-top: 15px;
+                        padding: 12px 16px;
+                        border-radius: 10px;
+                        background: #fff4f4;
+                        border: 1px solid #f0b5b5;
+                        color: #b42318;
+                        font-size: 14px;
+                    "
+                >
+                    ⚠️ Please answer all the questions before submitting your complaint.
+                </div>
+
+
+                <button
+                    id="submitButton"
+                    class="primary"
+                    onclick="submitComplaint()"
+                >
+
+                    <span>
+                        Create Complaint
+                    </span>
+
+                    <b>
+                        →
+                    </b>
+
+                </button>
+
+            </section>
+
+
+            <!-- ================= RESULT ================= -->
+
+            <section
+                id="result"
+                class="result-box"
+                style="display: none;"
+            >
+
+                <div class="success-animation">
+
+                    <div class="success-circle">
+                        ✓
+                    </div>
+
+                </div>
+
+
+                <span class="section-tag">
+                    SUCCESS
+                </span>
+
+                <h1>
+                    Complaint Prepared
+                </h1>
+
+                <p>
+                    Your complaint has been structured successfully.
+                </p>
+
+
+                <div class="result-grid">
+
+                    <div class="result">
+
+                        <span>
+                            Complaint ID
+                        </span>
+
+                        <strong id="cid"></strong>
+
+                    </div>
+
+
+                    <div class="result">
+
+                        <span>
+                            Category
+                        </span>
+
+                        <strong id="cat2"></strong>
+
+                    </div>
+
+
+                    <div class="result">
+
+                        <span>
+                            Priority
+                        </span>
+
+                        <strong id="priority"></strong>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="/"
+                    class="home-btn"
+                >
+                    ← Return to Assistant
+                </a>
+
+            </section>
+
+        </div>
+
+    </main>
 
 </div>
 
 
-
 <script>
 
-let category = '';
-let questions = [];
+    // ================= VARIABLES =================
+
+    let category = "";
+
+    let questions = [];
 
 
-// ======================================================
-// ANALYZE COMPLAINT
-// ======================================================
+    // ================= CHARACTER COUNTER =================
 
-async function analyze() {
+    const description =
+        document.getElementById("description");
 
-  const description =
-    document.getElementById('description').value.trim();
-
-
-  // Empty complaint check
-  if (!description) {
-
-    alert('Please describe your complaint first.');
-
-    return;
-  }
+    const charCount =
+        document.getElementById("charCount");
 
 
-  try {
+    description.addEventListener(
+        "input",
+        () => {
 
-    const r = await fetch(
-      '/api/analyze-complaint',
-      {
-        method: 'POST',
+            charCount.textContent =
+                description.value.length;
 
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-          description: description
-        })
-      }
+        }
     );
 
 
-    const d = await r.json();
+    // ================= UPDATE STEPS =================
+
+    function updateSteps(activeStep) {
+
+        const steps =
+            document.querySelectorAll(".step");
 
 
-    // ==================================================
-    // IMPORTANT:
-    // Handle backend validation errors
-    // ==================================================
+        steps.forEach((step, index) => {
 
-    if (!r.ok || d.error) {
+            if (index < activeStep) {
 
-      alert(
-        d.error ||
-        'Unable to analyze complaint. Please try again.'
-      );
+                step.classList.add("completed");
 
-      return;
+            }
+
+
+            if (index === activeStep) {
+
+                step.classList.add("active");
+
+            }
+
+        });
+
     }
 
 
-    // Store category and questions
+    // ================= ANALYZE COMPLAINT =================
 
-    category = d.category || 'Other';
+    async function analyze() {
 
-    questions = d.questions || [];
-
-
-    // Display detected category
-
-    document.getElementById('category').textContent =
-      category;
+        const text =
+            description.value.trim();
 
 
-    // Clear old questions
+        if (!text) {
 
-    const qbox =
-      document.getElementById('questions');
+            alert(
+                "Please describe your complaint first."
+            );
 
-    qbox.innerHTML = '';
+            description.focus();
 
+            return;
 
-    // Generate relevant questions
-
-    questions.forEach((q, i) => {
-
-      qbox.innerHTML += `
-        <label>
-          ${i + 1}. ${q}
-          <input
-            class="answer"
-            placeholder="Enter your answer..."
-          >
-        </label>
-      `;
-
-    });
+        }
 
 
-    // Move to Step 2
-
-    document.getElementById('step1').style.display =
-      'none';
-
-    document.getElementById('step2').style.display =
-      'block';
-
-  }
+        const button =
+            document.querySelector(
+                "#step1 .primary"
+            );
 
 
-  catch (error) {
+        button.classList.add("loading");
 
-    console.error('Analyze error:', error);
-
-    alert(
-      'Something went wrong while analyzing your complaint. Please try again.'
-    );
-
-  }
-
-}
+        button.disabled = true;
 
 
+        try {
 
-// ======================================================
-// SUBMIT COMPLAINT
-// ======================================================
+            const response =
+                await fetch(
+                    "/api/analyze-complaint",
+                    {
+                        method: "POST",
 
-async function submitComplaint() {
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-  const description =
-    document.getElementById('description').value.trim();
-
-
-  const answers =
-    [...document.querySelectorAll('.answer')]
-      .map(x => x.value.trim());
-
-
-  try {
-
-    const r = await fetch(
-      '/api/submit-complaint',
-      {
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-
-          description: description,
-
-          category: category,
-
-          answers: answers
-
-        })
-      }
-    );
+                        body: JSON.stringify({
+                            description: text
+                        })
+                    }
+                );
 
 
-    const d = await r.json();
+            const data =
+                await response.json();
 
 
-    // ==================================================
-    // Handle submission errors
-    // ==================================================
+            if (!response.ok || data.error) {
 
-    if (!r.ok || d.error) {
+                alert(
+                    data.error ||
+                    "Unable to analyze complaint."
+                );
 
-      alert(
-        d.error ||
-        'Unable to create complaint. Please try again.'
-      );
+                return;
 
-      return;
+            }
+
+
+            // Store AI analysis
+
+            category =
+                data.category || "Other";
+
+            questions =
+                data.questions || [];
+
+
+            // Show category
+
+            document.getElementById(
+                "category"
+            ).textContent = category;
+
+
+            // Questions container
+
+            const questionBox =
+                document.getElementById(
+                    "questions"
+                );
+
+
+            questionBox.innerHTML = "";
+
+
+            // Create questions
+
+            questions.forEach(
+                (question, index) => {
+
+                    questionBox.innerHTML += `
+
+                        <label class="question-card">
+
+                            <span>
+                                ${index + 1}
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    ${escapeHtml(question)}
+                                </strong>
+
+                                <input
+                                    type="text"
+                                    class="answer"
+                                    placeholder="Enter your answer..."
+                                    autocomplete="off"
+                                >
+
+                            </div>
+
+                        </label>
+
+                    `;
+
+                }
+            );
+
+
+            // If no questions were returned
+
+            if (questions.length === 0) {
+
+                questionBox.innerHTML = `
+
+                    <div
+                        style="
+                            padding: 18px;
+                            text-align: center;
+                        "
+                    >
+                        <strong>
+                            No additional details are required.
+                        </strong>
+                    </div>
+
+                `;
+
+            }
+
+
+            // Hide validation message
+
+            document.getElementById(
+                "validationMessage"
+            ).style.display = "none";
+
+
+            // Show Step 2
+
+            document.getElementById(
+                "step1"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "step2"
+            ).style.display = "block";
+
+
+            updateSteps(1);
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Analyze Error:",
+                error
+            );
+
+
+            alert(
+                "Something went wrong. Please try again."
+            );
+
+        }
+
+
+        finally {
+
+            button.classList.remove("loading");
+
+            button.disabled = false;
+
+        }
+
     }
 
 
-    // ==================================================
-    // Show successful result
-    // ==================================================
+    // ================= SUBMIT COMPLAINT =================
 
-    document.getElementById('step2').style.display =
-      'none';
+    async function submitComplaint() {
 
-    document.getElementById('result').style.display =
-      'block';
+        const text =
+            description.value.trim();
 
 
-    // Complaint ID
+        // Collect all answer fields
 
-    document.getElementById('cid').textContent =
-      d.complaint_id || 'N/A';
-
-
-    // Category
-
-    document.getElementById('cat2').textContent =
-      d.category || category || 'Other';
+        const answerInputs =
+            [
+                ...document.querySelectorAll(
+                    ".answer"
+                )
+            ];
 
 
-    // Priority
+        const answers =
+            answerInputs.map(
+                input =>
+                    input.value.trim()
+            );
 
-    document.getElementById('priority').textContent =
-      d.priority || 'LOW';
 
-  }
+        // ================= REQUIRED FIELD VALIDATION =================
+
+        // Check whether any answer is empty
+
+        const hasEmptyAnswer =
+            answers.some(
+                answer => answer === ""
+            );
 
 
-  catch (error) {
+        if (hasEmptyAnswer) {
 
-    console.error('Submit error:', error);
+            const validationMessage =
+                document.getElementById(
+                    "validationMessage"
+                );
 
-    alert(
-      'Something went wrong while creating the complaint. Please try again.'
+
+            validationMessage.style.display =
+                "block";
+
+
+            // Highlight empty fields
+
+            answerInputs.forEach(input => {
+
+                if (!input.value.trim()) {
+
+                    input.style.border =
+                        "2px solid #d92d20";
+
+                    input.style.background =
+                        "#fff8f8";
+
+                }
+
+                else {
+
+                    input.style.border = "";
+
+                    input.style.background = "";
+
+                }
+
+            });
+
+
+            // Focus first empty field
+
+            const firstEmpty =
+                answerInputs.find(
+                    input =>
+                        !input.value.trim()
+                );
+
+
+            if (firstEmpty) {
+
+                firstEmpty.focus();
+
+            }
+
+
+            // DO NOT SUBMIT
+
+            return;
+
+        }
+
+
+        // Hide validation message
+
+        document.getElementById(
+            "validationMessage"
+        ).style.display = "none";
+
+
+        const button =
+            document.getElementById(
+                "submitButton"
+            );
+
+
+        button.classList.add("loading");
+
+        button.disabled = true;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/submit-complaint",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            description: text,
+
+                            category: category,
+
+                            answers: answers
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok || data.error) {
+
+                alert(
+                    data.error ||
+                    "Unable to create complaint."
+                );
+
+                return;
+
+            }
+
+
+            // Hide Step 2
+
+            document.getElementById(
+                "step2"
+            ).style.display = "none";
+
+
+            // Show result
+
+            document.getElementById(
+                "result"
+            ).style.display = "block";
+
+
+            // Complaint ID
+
+            document.getElementById(
+                "cid"
+            ).textContent =
+                data.complaint_id || "N/A";
+
+
+            // Category
+
+            document.getElementById(
+                "cat2"
+            ).textContent =
+                data.category || category;
+
+
+            // Priority
+
+            document.getElementById(
+                "priority"
+            ).textContent =
+                data.priority || "LOW";
+
+
+            updateSteps(2);
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Submit Error:",
+                error
+            );
+
+
+            alert(
+                "Something went wrong. Please try again."
+            );
+
+        }
+
+
+        finally {
+
+            button.classList.remove("loading");
+
+            button.disabled = false;
+
+        }
+
+    }
+
+
+    // ================= SECURITY =================
+
+    function escapeHtml(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            text;
+
+        return div.innerHTML;
+
+    }
+
+
+    // ================= REMOVE ERROR STYLE =================
+
+    document.addEventListener(
+        "input",
+        function(event) {
+
+            if (
+                event.target.classList.contains(
+                    "answer"
+                )
+            ) {
+
+                if (
+                    event.target.value.trim()
+                ) {
+
+                    event.target.style.border = "";
+
+                    event.target.style.background = "";
+
+                }
+
+            }
+
+        }
     );
-
-  }
-
-}
 
 </script>
 

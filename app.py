@@ -5,7 +5,6 @@ import sqlite3
 import re
 from datetime import datetime
 
-
 app = Flask(__name__)
 
 
@@ -52,9 +51,13 @@ init_database()
 
 def detect_intent(message):
 
-    text = message.lower()
+    text = message.lower().strip()
 
     intent_keywords = {
+
+        # --------------------------------------
+        # DEPARTMENTS
+        # --------------------------------------
 
         "departments": [
             "department",
@@ -66,8 +69,16 @@ def detect_intent(message):
             "program",
             "programs",
             "stream",
-            "streams"
+            "streams",
+            "engineering branch",
+            "engineering branches",
+            "courses available",
+            "branches available"
         ],
+
+        # --------------------------------------
+        # FACILITIES
+        # --------------------------------------
 
         "facilities": [
             "facility",
@@ -75,55 +86,105 @@ def detect_intent(message):
             "library",
             "canteen",
             "transport",
+            "transportation",
             "classroom",
+            "classrooms",
             "laboratory",
+            "laboratories",
             "lab",
             "auditorium",
             "sports",
-            "hostel"
+            "hostel",
+            "wifi",
+            "internet",
+            "seminar",
+            "seminar hall"
         ],
+
+        # --------------------------------------
+        # AIML
+        # --------------------------------------
 
         "aiml": [
             "aiml",
             "ai ml",
+            "ai and ml",
+            "artificial intelligence",
             "machine learning",
-            "artificial intelligence"
+            "artificial intelligence and machine learning",
+            "cse aiml",
+            "cse (aiml)"
         ],
+
+        # --------------------------------------
+        # EXAMINATION
+        # --------------------------------------
 
         "examination": [
             "exam",
             "examination",
+            "examinations",
             "timetable",
+            "time table",
             "result",
+            "results",
             "marks",
+            "mark",
             "hall ticket",
-            "paper"
+            "hallticket",
+            "question paper",
+            "paper",
+            "revaluation",
+            "semester exam"
         ],
+
+        # --------------------------------------
+        # COLLEGE
+        # --------------------------------------
 
         "college": [
             "college name",
             "college",
             "prpcem",
+            "p.r. pote",
+            "p r pote",
             "pote patil",
             "full name",
-            "about college"
+            "about college",
+            "about prpcem",
+            "which college"
         ]
     }
 
-    # Score each possible intent
     scores = {}
+
+    # --------------------------------------
+    # SCORE EACH INTENT
+    # --------------------------------------
 
     for intent, keywords in intent_keywords.items():
 
-        scores[intent] = sum(
-            1 for keyword in keywords
-            if keyword in text
-        )
+        score = 0
+
+        for keyword in keywords:
+
+            if keyword in text:
+                score += 1
+
+        scores[intent] = score
+
+    # --------------------------------------
+    # GET BEST INTENT
+    # --------------------------------------
 
     best_intent = max(
         scores,
         key=scores.get
     )
+
+    # --------------------------------------
+    # NO MATCH
+    # --------------------------------------
 
     if scores[best_intent] == 0:
         return "unknown"
@@ -131,13 +192,125 @@ def detect_intent(message):
     return best_intent
 
 
+# ==========================================
+# CHATBOT RESPONSE
+# ==========================================
+
 def chatbot_answer(message):
 
-    intent = detect_intent(message)
+    text = message.lower().strip()
 
-    # --------------------------------------
-    # COLLEGE
-    # --------------------------------------
+    # ======================================
+    # GREETINGS
+    # ======================================
+
+    greetings = [
+        "hello",
+        "hi",
+        "hey",
+        "hii",
+        "hiii",
+        "namaste",
+        "good morning",
+        "good afternoon",
+        "good evening"
+    ]
+
+    if (
+        text in greetings
+        or any(
+            text.startswith(greeting + " ")
+            for greeting in greetings
+        )
+    ):
+
+        return (
+            "Hello! 👋 Welcome to PRPCEM Student Assistant.\n\n"
+            "I can help you with PRPCEM-related information such as "
+            "departments, facilities, CSE (AIML), examinations and "
+            "college information.\n\n"
+            "What would you like to know?"
+        )
+
+    # ======================================
+    # THANK YOU
+    # ======================================
+
+    if text in [
+        "thank you",
+        "thanks",
+        "thank u",
+        "thx",
+        "thankyou"
+    ]:
+
+        return (
+            "You're welcome! 😊\n\n"
+            "I'm happy to help with PRPCEM-related queries."
+        )
+
+    # ======================================
+    # GOODBYE
+    # ======================================
+
+    if text in [
+        "bye",
+        "goodbye",
+        "see you",
+        "ok bye",
+        "okay bye"
+    ]:
+
+        return (
+            "Goodbye! 👋\n\n"
+            "Have a great day!"
+        )
+
+    # ======================================
+    # HOW ARE YOU
+    # ======================================
+
+    if text in [
+        "how are you",
+        "how are you?",
+        "how r u",
+        "how r u?",
+        "how are u"
+    ]:
+
+        return (
+            "I'm doing great! 🤖😊\n\n"
+            "I'm ready to help you with PRPCEM-related "
+            "information. What would you like to know?"
+        )
+
+    # ======================================
+    # WHO ARE YOU
+    # ======================================
+
+    if text in [
+        "who are you",
+        "what are you",
+        "what is this chatbot",
+        "what is this"
+    ]:
+
+        return (
+            "I'm the PRPCEM Student Assistant 🤖.\n\n"
+            "I'm an AI-based student support system designed "
+            "to provide information about PRPCEM and assist "
+            "students with college-related queries."
+        )
+
+    # ======================================
+    # DETECT INTENT
+    # ======================================
+
+    intent = detect_intent(text)
+
+    # ======================================
+    # COLLEGE INFORMATION
+    # ======================================
 
     if intent == "college":
 
@@ -146,91 +319,111 @@ def chatbot_answer(message):
             "Management, Amravati (PRPCEM)."
         )
 
-
-    # --------------------------------------
+    # ======================================
     # DEPARTMENTS
-    # --------------------------------------
+    # ======================================
 
     if intent == "departments":
 
-        departments = KNOWLEDGE["departments"]
-
-        answer = (
-            "PRPCEM has the following engineering "
-            "departments:\n\n"
+        departments = KNOWLEDGE.get(
+            "departments",
+            []
         )
 
-        for i, department in enumerate(
-            departments,
-            1
-        ):
+        if departments:
 
-            answer += (
-                f"{i}. {department}\n"
+            answer = (
+                "PRPCEM has the following engineering "
+                "departments:\n\n"
             )
 
-        return answer
+            for i, department in enumerate(
+                departments,
+                1
+            ):
 
+                answer += (
+                    f"{i}. {department}\n"
+                )
 
-    # --------------------------------------
+            return answer
+
+        return (
+            "PRPCEM offers engineering programs including "
+            "Computer Science, CSE (AIML), Artificial Intelligence "
+            "and Data Science, Electrical, Mechanical, Civil and EXTC."
+        )
+
+    # ======================================
     # FACILITIES
-    # --------------------------------------
+    # ======================================
 
     if intent == "facilities":
 
-        facilities = KNOWLEDGE["facilities"]
-
-        answer = (
-            "PRPCEM provides facilities such as:\n\n"
+        facilities = KNOWLEDGE.get(
+            "facilities",
+            []
         )
 
-        for facility in facilities:
+        if facilities:
 
-            answer += (
-                f"• {facility}\n"
+            answer = (
+                "PRPCEM provides facilities such as:\n\n"
             )
 
-        return answer
+            for facility in facilities:
 
+                answer += (
+                    f"• {facility}\n"
+                )
 
-    # --------------------------------------
+            return answer
+
+        return (
+            "PRPCEM provides facilities such as laboratories, "
+            "library, classrooms, auditorium, sports facilities, "
+            "canteen, transportation and other student-support facilities."
+        )
+
+    # ======================================
     # AIML
-    # --------------------------------------
+    # ======================================
 
     if intent == "aiml":
 
         return (
-            "CSE (AIML) is one of the engineering "
-            "departments at PRPCEM. It focuses on "
-            "Computer Science, Artificial Intelligence "
+            "CSE (AIML) is an engineering department at PRPCEM.\n\n"
+            "It focuses on Computer Science, Artificial Intelligence "
             "and Machine Learning."
         )
 
-
-    # --------------------------------------
+    # ======================================
     # EXAMINATION
-    # --------------------------------------
+    # ======================================
 
     if intent == "examination":
 
         return (
-            "For examination-related information, "
-            "students should refer to the official "
-            "PRPCEM examination resources. I can help "
-            "with general examination queries available "
-            "in my knowledge base."
+            "For examination-related information, students should "
+            "refer to the official PRPCEM examination resources.\n\n"
+            "I can help with general examination-related queries "
+            "such as examination timetable, results, marks, hall "
+            "tickets and other examination information."
         )
 
-
-    # --------------------------------------
-    # UNKNOWN
-    # --------------------------------------
+    # ======================================
+    # UNKNOWN QUERY
+    # ======================================
 
     return (
         "I'm PRPCEM Student Assistant. 🤖\n\n"
-        "I can help only with PRPCEM-related questions "
-        "such as departments, programs, facilities, "
-        "examinations and student support."
+        "I can help only with PRPCEM-related questions such as:\n\n"
+        "• Departments and courses\n"
+        "• College information\n"
+        "• Facilities\n"
+        "• CSE (AIML)\n"
+        "• Examination information\n\n"
+        "Please ask me a PRPCEM-related question."
     )
 
 
@@ -242,19 +435,35 @@ def is_meaningful_complaint(description):
 
     text = description.strip()
 
-    # Empty or very short input
+    # --------------------------------------
+    # EMPTY OR VERY SHORT INPUT
+    # --------------------------------------
+
     if len(text) < 8:
         return False
 
-    # Remove extra spaces
-    words = re.findall(r"[A-Za-z]+", text.lower())
+    # --------------------------------------
+    # EXTRACT WORDS
+    # --------------------------------------
 
-    # Need at least 2 actual words
+    words = re.findall(
+        r"[A-Za-z]+",
+        text.lower()
+    )
+
+    # Need at least 2 words
+
     if len(words) < 2:
         return False
 
-    # Reject strings containing very little alphabetic content
-    letters = re.findall(r"[A-Za-z]", text)
+    # --------------------------------------
+    # CHECK ALPHABETIC CONTENT
+    # --------------------------------------
+
+    letters = re.findall(
+        r"[A-Za-z]",
+        text
+    )
 
     if len(letters) < 5:
         return False
@@ -262,7 +471,10 @@ def is_meaningful_complaint(description):
     if len(letters) / max(len(text), 1) < 0.45:
         return False
 
-    # Common meaningless/random inputs
+    # --------------------------------------
+    # RANDOM / MEANINGLESS INPUTS
+    # --------------------------------------
+
     invalid_inputs = {
         "asdf",
         "asdfgh",
@@ -288,18 +500,27 @@ def is_meaningful_complaint(description):
     cleaned_words = "".join(words)
 
     for invalid in invalid_inputs:
+
         if cleaned_words == invalid:
             return False
 
-    # Detect obvious repeated/random patterns
-    unique_letters = set(cleaned_words)
+    # --------------------------------------
+    # REPEATED LETTER DETECTION
+    # --------------------------------------
+
+    unique_letters = set(
+        cleaned_words
+    )
 
     if len(cleaned_words) >= 5:
+
         if len(unique_letters) <= 2:
             return False
 
-    # Complaint/context words.
-    # These help recognize meaningful Hinglish/English complaints.
+    # --------------------------------------
+    # MEANINGFUL CONTEXT WORDS
+    # --------------------------------------
+
     meaningful_context_words = [
 
         # General complaint words
@@ -336,6 +557,7 @@ def is_meaningful_complaint(description):
         "behaviour",
         "rude",
         "misbehave",
+        "misbehaved",
         "attendance",
         "marks",
 
@@ -422,33 +644,33 @@ def is_meaningful_complaint(description):
         "safety",
         "abuse",
 
-        # Common Hinglish words
+        # Common Hinglish
         "mujhe",
         "mere",
         "meri",
         "mera",
-        "faculty",
         "nhi",
         "nahi",
         "kar",
         "rahi",
         "raha",
-        "hai",
-        "issue",
-        "problem"
+        "hai"
     ]
 
-    # If complaint contains known meaningful context,
-    # consider it valid.
+    # --------------------------------------
+    # KNOWN CONTEXT = VALID
+    # --------------------------------------
+
     if any(
         word in words
         for word in meaningful_context_words
     ):
         return True
 
-    # For unknown complaints, require at least 3 words.
-    # This allows genuine sentences to reach "Other"
-    # while rejecting short random text.
+    # --------------------------------------
+    # UNKNOWN BUT PROPER SENTENCE
+    # --------------------------------------
+
     if len(words) >= 3:
         return True
 
@@ -465,6 +687,10 @@ def detect_category(description):
 
     categories = {
 
+        # --------------------------------------
+        # LABORATORY
+        # --------------------------------------
+
         "Laboratory / Equipment": [
             "projector",
             "laboratory",
@@ -477,6 +703,10 @@ def detect_category(description):
             "practical"
         ],
 
+        # --------------------------------------
+        # WATER / SANITATION
+        # --------------------------------------
+
         "Water / Sanitation": [
             "water",
             "tap",
@@ -487,6 +717,10 @@ def detect_category(description):
             "dirty",
             "cleanliness"
         ],
+
+        # --------------------------------------
+        # ELECTRICAL / INFRASTRUCTURE
+        # --------------------------------------
 
         "Electrical / Infrastructure": [
             "electricity",
@@ -503,6 +737,10 @@ def detect_category(description):
             "chair",
             "infrastructure"
         ],
+
+        # --------------------------------------
+        # FACULTY / ACADEMIC
+        # --------------------------------------
 
         "Faculty / Academic": [
             "faculty",
@@ -528,6 +766,10 @@ def detect_category(description):
             "teaching"
         ],
 
+        # --------------------------------------
+        # EXAMINATION
+        # --------------------------------------
+
         "Examination": [
             "exam",
             "examination",
@@ -539,6 +781,10 @@ def detect_category(description):
             "marksheet",
             "revaluation"
         ],
+
+        # --------------------------------------
+        # ADMINISTRATIVE
+        # --------------------------------------
 
         "Administrative": [
             "office",
@@ -552,6 +798,10 @@ def detect_category(description):
             "scholarship"
         ],
 
+        # --------------------------------------
+        # LIBRARY
+        # --------------------------------------
+
         "Library": [
             "library",
             "book",
@@ -559,12 +809,20 @@ def detect_category(description):
             "reading room"
         ],
 
+        # --------------------------------------
+        # CANTEEN
+        # --------------------------------------
+
         "Canteen": [
             "canteen",
             "food",
             "meal",
             "hygiene"
         ],
+
+        # --------------------------------------
+        # TRANSPORTATION
+        # --------------------------------------
 
         "Transportation": [
             "bus",
@@ -574,6 +832,10 @@ def detect_category(description):
             "driver",
             "conductor"
         ],
+
+        # --------------------------------------
+        # SAFETY
+        # --------------------------------------
 
         "Ragging / Harassment / Safety": [
             "ragging",
@@ -588,7 +850,10 @@ def detect_category(description):
         ]
     }
 
-    # Score categories
+    # --------------------------------------
+    # SCORE CATEGORIES
+    # --------------------------------------
+
     scores = {}
 
     for category, keywords in categories.items():
@@ -597,13 +862,13 @@ def detect_category(description):
 
         for keyword in keywords:
 
-            # For multi-word phrases, use direct matching.
+            # Multi-word phrases
             if " " in keyword:
 
                 if keyword in text:
                     score += 1
 
-            # For single words, check complete words.
+            # Single words
             else:
 
                 if re.search(
@@ -614,13 +879,16 @@ def detect_category(description):
 
         scores[category] = score
 
+    # --------------------------------------
+    # BEST CATEGORY
+    # --------------------------------------
+
     best_category = max(
         scores,
         key=scores.get
     )
 
     if scores[best_category] == 0:
-
         return "Other"
 
     return best_category
@@ -633,119 +901,77 @@ def detect_category(description):
 QUESTION_RULES = {
 
     "Laboratory / Equipment": [
-
         "Which department is this laboratory related to?",
-
         "Which floor is the laboratory located on?",
-
         "What is the laboratory or room number?",
-
         "What equipment is affected and what exactly is the problem?",
-
         "Since when has the problem been occurring?"
     ],
 
     "Water / Sanitation": [
-
         "Which building or block is affected?",
-
         "Which floor and washroom is affected?",
-
         "What exactly is the water or sanitation problem?",
-
         "Since when has the problem been occurring?"
     ],
 
     "Electrical / Infrastructure": [
-
         "Where is the problem located? Please enter building, floor or room.",
-
         "Which electrical equipment or infrastructure is affected?",
-
         "What exactly is the problem?",
-
         "Since when has the problem been occurring?"
     ],
 
     "Faculty / Academic": [
-
         "What is the faculty member's name?",
-
         "Which department and subject are involved?",
-
         "When did the incident or problem occur?",
-
         "Please describe the issue clearly."
     ],
 
     "Examination": [
-
         "Which examination or subject is this related to?",
-
         "Which semester/year are you in?",
-
         "What exactly is the examination-related issue?",
-
         "When did you notice the issue?"
     ],
 
     "Administrative": [
-
         "Which office or administrative service is involved?",
-
         "Which semester/year are you in?",
-
         "What document, form or service is involved?",
-
         "Please describe the issue clearly."
     ],
 
     "Library": [
-
         "Which library service or book is involved?",
-
         "What exactly is the problem?",
-
         "When did the issue occur?"
     ],
 
     "Canteen": [
-
         "What is the canteen-related issue?",
-
         "When and where did it occur?",
-
         "Please provide any additional useful details."
     ],
 
     "Transportation": [
-
         "Which route or bus is involved?",
-
         "What exactly is the transportation issue?",
-
         "When did it occur?"
     ],
 
     "Ragging / Harassment / Safety": [
-
         "When and where did the incident occur?",
-
         "Please describe what happened in factual terms.",
-
         "Who or what group was involved, if known?",
-
         "Do you currently feel unsafe or require immediate assistance?"
     ],
 
     "Other": [
-
         "Which department or area is this related to?",
-
         "Where did the issue occur?",
-
         "When did it occur?",
-
         "Please provide any other details needed to understand the problem."
     ]
 }
@@ -767,12 +993,17 @@ def calculate_priority(
         + " ".join(answers)
     ).lower()
 
-    # Safety complaints
-    if category == "Ragging / Harassment / Safety":
+    # --------------------------------------
+    # SAFETY = HIGH
+    # --------------------------------------
 
+    if category == "Ragging / Harassment / Safety":
         return "HIGH"
 
-    # Emergency situations
+    # --------------------------------------
+    # EMERGENCY = HIGH
+    # --------------------------------------
+
     if any(
         word in complete_text
         for word in [
@@ -782,13 +1013,15 @@ def calculate_priority(
             "threat"
         ]
     ):
-
         return "HIGH"
 
-    # Important technical issues
+    # --------------------------------------
+    # IMPORTANT TECHNICAL ISSUE = MEDIUM
+    # --------------------------------------
+
     if any(
-        word in complete_text
-        for word in [
+        phrase in complete_text
+        for phrase in [
             "not working",
             "many students",
             "whole class",
@@ -796,8 +1029,11 @@ def calculate_priority(
             "urgent"
         ]
     ):
-
         return "MEDIUM"
+
+    # --------------------------------------
+    # NORMAL = LOW
+    # --------------------------------------
 
     return "LOW"
 
@@ -855,11 +1091,19 @@ def chat():
         ""
     ).strip()
 
+    # --------------------------------------
+    # EMPTY MESSAGE
+    # --------------------------------------
+
     if not message:
 
         return jsonify({
             "reply": "Please enter a question."
         })
+
+    # --------------------------------------
+    # GENERATE RESPONSE
+    # --------------------------------------
 
     response = chatbot_answer(
         message
@@ -888,7 +1132,7 @@ def analyze_complaint():
     ).strip()
 
     # --------------------------------------
-    # CHECK EMPTY INPUT
+    # EMPTY INPUT
     # --------------------------------------
 
     if not description:
@@ -897,12 +1141,13 @@ def analyze_complaint():
             "error": "Please describe your complaint."
         }), 400
 
-
     # --------------------------------------
     # VALIDATE COMPLAINT
     # --------------------------------------
 
-    if not is_meaningful_complaint(description):
+    if not is_meaningful_complaint(
+        description
+    ):
 
         return jsonify({
             "error": (
@@ -910,7 +1155,6 @@ def analyze_complaint():
                 "describing your actual issue."
             )
         }), 400
-
 
     # --------------------------------------
     # DETECT CATEGORY
@@ -920,9 +1164,8 @@ def analyze_complaint():
         description
     )
 
-
     # --------------------------------------
-    # GET CATEGORY QUESTIONS
+    # GET QUESTIONS
     # --------------------------------------
 
     questions = QUESTION_RULES.get(
@@ -930,13 +1173,9 @@ def analyze_complaint():
         QUESTION_RULES["Other"]
     )
 
-
     return jsonify({
-
         "category": category,
-
         "questions": questions
-
     })
 
 
@@ -967,6 +1206,9 @@ def submit_complaint():
         []
     )
 
+    # --------------------------------------
+    # EMPTY DESCRIPTION
+    # --------------------------------------
 
     if not description:
 
@@ -974,12 +1216,13 @@ def submit_complaint():
             "error": "Complaint description is required."
         }), 400
 
-
     # --------------------------------------
-    # VALIDATE AGAIN BEFORE SAVING
+    # VALIDATE AGAIN
     # --------------------------------------
 
-    if not is_meaningful_complaint(description):
+    if not is_meaningful_complaint(
+        description
+    ):
 
         return jsonify({
             "error": (
@@ -988,6 +1231,9 @@ def submit_complaint():
             )
         }), 400
 
+    # --------------------------------------
+    # CALCULATE PRIORITY
+    # --------------------------------------
 
     priority = calculate_priority(
         category,
@@ -995,23 +1241,30 @@ def submit_complaint():
         answers
     )
 
+    # --------------------------------------
+    # GENERATE COMPLAINT ID
+    # --------------------------------------
 
     complaint_id = (
         "PRPCEM-"
         + str(uuid.uuid4())[:8].upper()
     )
 
+    # --------------------------------------
+    # DATE & TIME
+    # --------------------------------------
 
     created_at = datetime.now().strftime(
         "%Y-%m-%d %H:%M:%S"
     )
 
-
+    # --------------------------------------
     # SAVE TO SQLITE
+    # --------------------------------------
+
     connection = sqlite3.connect(
         DB_NAME
     )
-
 
     connection.execute("""
         INSERT INTO complaints
@@ -1036,10 +1289,12 @@ def submit_complaint():
         created_at
     ))
 
-
     connection.commit()
     connection.close()
 
+    # --------------------------------------
+    # RESPONSE
+    # --------------------------------------
 
     return jsonify({
 
@@ -1050,7 +1305,6 @@ def submit_complaint():
         "category": category,
 
         "priority": priority
-
     })
 
 
@@ -1083,12 +1337,10 @@ def get_complaints():
 
     connection.close()
 
-
     complaints = [
         dict(row)
         for row in rows
     ]
-
 
     return jsonify({
         "complaints": complaints

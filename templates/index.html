@@ -1,69 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRPCEM Student Assistant</title>
-<link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PRPCEM Student Assistant</title>
+
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
 <div class="page">
 
-  <header class="college-header">
-    <img src="/static/college_logo.png" class="logo" alt="PRPCEM Logo">
+    <!-- ================= HEADER ================= -->
 
-    <div>
-      <h2>P. R. Pote Patil College of Engineering & Management, Amravati</h2>
-      <p>An Autonomous Institute Affiliated to Sant Gadge Baba Amravati University</p>
-    </div>
-  </header>
+    <header class="college-header">
 
-  <main class="hero">
+        <div class="brand">
 
-    <div class="badge">AI-POWERED STUDENT SUPPORT</div>
+            <img
+                src="/static/college_logo.png"
+                class="logo"
+                alt="PRPCEM Logo"
+            >
 
-    <h1>PRPCEM <span>STUDENT ASSISTANT</span></h1>
+            <div class="college-text">
 
-    <p class="tagline">
-      Your AI-powered companion for academic assistance, campus queries and student support.
-    </p>
+                <h2>
+                    P. R. Pote Patil College of Engineering & Management, Amravati
+                </h2>
 
-    <div class="cards">
+                <p>
+                    An Autonomous Institute Affiliated to Sant Gadge Baba Amravati University
+                </p>
 
-      <a href="/chatbot" class="card maroon">
-        <div class="icon">🤖</div>
+            </div>
 
-        <div>
-          <h3>Ask Chatbot</h3>
-          <p>Get instant answers to PRPCEM-related questions</p>
         </div>
 
-        <b>→</b>
-      </a>
+        <div class="header-glow"></div>
 
-      <a href="/complaint" class="card blue">
-        <div class="icon">📝</div>
+    </header>
 
-        <div>
-          <h3>Raise a Complaint</h3>
-          <p>Report an issue and get it routed correctly</p>
-        </div>
 
-        <b>→</b>
-      </a>
+    <!-- ================= HERO ================= -->
 
-    </div>
+    <main>
 
-  </main>
+        <section class="hero">
 
-  <footer class="footer">
-    <div class="footer-line"></div>
-    <p> 2026 PRPCEM Student Assistant • AI-Based Student Support System</p>
-  </footer>
+            <div class="hero-grid"></div>
+
+            <div class="hero-orb orb-one"></div>
+            <div class="hero-orb orb-two"></div>
+            <div class="hero-orb orb-three"></div>
+
+            <div class="hero-content">
+
+                <div class="badge">
+                    <span class="status-dot"></span>
+                    AI-POWERED STUDENT SUPPORT
+                </div>
+
+                <h1>
+                    PRPCEM
+                    <span>STUDENT ASSISTANT</span>
+                </h1>
+
+                <p class="tagline">
+                    Your intelligent companion for academic assistance,
+                    campus queries and student support.
+                </p>
+
+
+                <!-- FEATURE CARDS -->
+
+                <div class="cards">
+
+                    <a href="/chatbot" class="card chatbot-card">
+
+                        <div class="card-icon">
+                            🤖
+                        </div>
+
+                        <div class="card-content">
+
+                            <span class="card-label">
+                                AI ASSISTANT
+                            </span>
+
+                            <h3>
+                                Ask Chatbot
+                            </h3>
+
+                            <p>
+                                Get instant answers to PRPCEM-related
+                                questions and college information.
+                            </p>
+
+                            <span class="card-action">
+                                Start Conversation
+                                <b>→</b>
+                            </span>
+
+                        </div>
+
+                        <div class="card-glow"></div>
+
+                    </a>
+
+
+                    <a href="/complaint" class="card complaint-card">
+
+                        <div class="card-icon">
+                            📝
+                        </div>
+
+                        <div class="card-content">
+
+                            <span class="card-label">
+                                SMART SUPPORT
+                            </span>
+
+                            <h3>
+                                Raise a Complaint
+                            </h3>
+
+                            <p>
+                                Describe your issue naturally and let AI
+                                organize your complaint.
+                            </p>
+
+                            <span class="card-action">
+                                Raise an Issue
+                                <b>→</b>
+                            </span>
+
+                        </div>
+
+                        <div class="card-glow"></div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCROLL -->
+
+            <a href="#about" class="scroll-indicator">
+
+                <span>
+                    Explore PRPCEM
+                </span>
+
+                <div class="scroll-arrow">
+                    ↓
+                </div>
+
+            </a>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section id="about" class="about-section">
+
+            <div class="about-container">
+
+
+                <!-- VISUAL -->
+
+                <div class="about-visual reveal-left">
+
+                    <div class="visual-card">
+
+                        <div class="visual-ring ring-one"></div>
+                        <div class="visual-ring ring-two"></div>
+
+                        <div class="visual-glow"></div>
+
+                        <img
+                            src="/static/college_logo.png"
+                            alt="PRPCEM Logo"
+                            class="about-logo"
+                        >
+
+                        <div class="visual-title">
+
+                            <strong>
+                                PRPCEM
+                            </strong>
+
+                            <span>
+                                AMRAVATI
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFORMATION -->
+
+                <div class="about-content reveal-right">
+
+                    <span class="section-tag">
+                        ABOUT THE INSTITUTION
+                    </span>
+
+                    <h2>
+                        P. R. Pote Patil College of
+                        <span>Engineering & Management, Amravati</span>
+                    </h2>
+
+                    <p>
+                        P. R. Pote Patil College of Engineering &
+                        Management, Amravati is an autonomous engineering
+                        institution focused on technical education,
+                        innovation and student development.
+                    </p>
+
+                    <p>
+                        The institution provides students with academic
+                        programs, modern learning facilities and a
+                        supportive campus environment.
+                    </p>
+
+
+                    <div class="info-grid">
+
+                        <div class="info-item">
+                            <span class="info-icon">🎓</span>
+
+                            <div>
+                                <strong>
+                                    Academic Excellence
+                                </strong>
+
+                                <small>
+                                    Engineering & Management Education
+                                </small>
+                            </div>
+                        </div>
+
+
+                        <div class="info-item">
+                            <span class="info-icon">💡</span>
+
+                            <div>
+                                <strong>
+                                    Innovation
+                                </strong>
+
+                                <small>
+                                    Technology & Student Development
+                                </small>
+                            </div>
+                        </div>
+
+
+                        <div class="info-item">
+                            <span class="info-icon">🏫</span>
+
+                            <div>
+                                <strong>
+                                    Modern Campus
+                                </strong>
+
+                                <small>
+                                    Learning & Support Facilities
+                                </small>
+                            </div>
+                        </div>
+
+
+                        <div class="info-item">
+                            <span class="info-icon">🤝</span>
+
+                            <div>
+                                <strong>
+                                    Student Support
+                                </strong>
+
+                                <small>
+                                    Academic & Campus Assistance
+                                </small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= AI SECTION ================= -->
+
+        <section class="ai-section">
+
+            <div class="ai-background-circle circle-one"></div>
+            <div class="ai-background-circle circle-two"></div>
+
+            <div class="ai-content reveal-up">
+
+                <span class="section-tag">
+                    INTELLIGENT ASSISTANCE
+                </span>
+
+                <h2>
+                    Technology That
+                    <span>Understands.</span>
+                </h2>
+
+                <p>
+                    The PRPCEM Student Assistant uses natural-language
+                    processing, intent detection and rule-based reasoning
+                    to provide relevant student assistance.
+                </p>
+
+
+                <div class="process">
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Ask
+                        </h3>
+
+                        <p>
+                            Student enters a question or describes an issue.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Analyze
+                        </h3>
+
+                        <p>
+                            AI processes the text and identifies the intent.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Assist
+                        </h3>
+
+                        <p>
+                            The system provides appropriate assistance.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-line"></div>
+
+        <p>
+            © 2026 PRPCEM Student Assistant
+            <span>•</span>
+            AI-Based Student Support System
+        </p>
+
+    </footer>
 
 </div>
+
+
+<script>
+
+/* ================= SCROLL REVEAL ================= */
+
+const revealElements = document.querySelectorAll(
+    ".reveal-left, .reveal-right, .reveal-up"
+);
+
+const observer = new IntersectionObserver(
+    (entries) => {
+
+        entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("active");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+revealElements.forEach((element) => {
+    observer.observe(element);
+});
+
+
+/* ================= SMOOTH SCROLL ================= */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+    anchor.addEventListener("click", function(e) {
+
+        const target = document.querySelector(
+            this.getAttribute("href")
+        );
+
+        if (target) {
+
+            e.preventDefault();
+
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+    });
+
+});
+
+
+/* ================= PAGE LOADED ================= */
+
+window.addEventListener("load", () => {
+
+    document.body.classList.add("page-loaded");
+
+});
+
+
+/* ================= CARD CLICK EFFECT ================= */
+
+document.querySelectorAll(".card").forEach(card => {
+
+    card.addEventListener("click", function() {
+
+        this.classList.add("card-clicked");
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>
