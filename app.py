@@ -53,6 +53,13 @@ def detect_intent(message):
     text = message.lower().strip()
 
     intents = {
+         "introduction" :[
+            "hello",
+            "hi",
+            "namaste",
+            "welcome"
+        ],
+        
         "departments": [
             "department",
             "departments",
@@ -173,7 +180,13 @@ def detect_intent(message):
 
 def chatbot_answer(intent):
 
-    if intent == "college":
+    if intent == "introduction":
+
+        return (
+            "Hey!👋"
+            "I'm the PRPCEM Student Assistant. Ask me anything related to the college."
+        )
+    elif intent == "college":
 
         return (
             "🏫 P. R. Pote Patil College of Engineering and Management, Amravati was established in 2008 on a 10-acre campus."
