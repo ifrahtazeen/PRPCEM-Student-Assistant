@@ -259,7 +259,7 @@ def chatbot_answer(intent):
     else:
 
         return (
-            "Sorry!, I'm PRPCEM Student Assistant. 🤖\n\n"
+            "Sorry! I'm PRPCEM Student Assistant. 🤖\n\n"
             "I can help only with PRPCEM-related questions / queries.\n\n"
             "If my answer/response doesn't help/meet to resolve your query / question. "
             " So, you can visit to college official website or contact/report directly to the college! "
