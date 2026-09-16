@@ -183,7 +183,7 @@ def chatbot_answer(intent):
     if intent == "introduction":
 
         return (
-            "Hey!👋\n\n"
+            "Hey!👋\n"
             "I'm the PRPCEM Student Assistant. Ask me anything related to the college."
         )
         
