@@ -53,7 +53,7 @@ def detect_intent(message):
     text = message.lower().strip()
 
     intents = {
-         "introduction" :[
+         "introduction": [
             "hello",
             "hi",
             "namaste",
@@ -183,9 +183,10 @@ def chatbot_answer(intent):
     if intent == "introduction":
 
         return (
-            "Hey!👋"
+            "Hey!👋\n\n"
             "I'm the PRPCEM Student Assistant. Ask me anything related to the college."
         )
+        
     elif intent == "college":
 
         return (
